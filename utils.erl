@@ -65,8 +65,10 @@ rev([H|T]) -> rev(T) ++ [H].
 
 
 %% length of list 
-len([])    -> 0;
-len([_|T]) -> 1 + len(T).
+len(L)    -> len(L, 0).
+
+len([], N)    -> N;
+len([_|T], N) -> len(T, N+1).
 
 
 %% get a sublist from a list given the start and end indice. 
@@ -95,9 +97,6 @@ fib(F1, F2, N) -> fib(F2, F1+F2, N-1).
     %  N < 0 -> nil;
     %  true  -> fib(N-1) + fib(N-2)
     %end.
-
-
-
 
 
 
