@@ -1,7 +1,7 @@
 -module(utils).
 
 % Export a list of functions
--export([quicksort/1, sum/1, max/2, filter/2, last/1, even/1]).
+-export([quicksort/1, sum/1, max/2, min/2, at/2, rev/1, filter/2, last/1, even/1]).
 
 %% quick sort, use the list comprehension construct.
 quicksort([]) -> [];
@@ -18,11 +18,16 @@ sum([], N) -> N;
 sum([H|T], N) -> sum(T, H+N).
 
 
-
 %% use of guards "when", pattern matching follows the order of expressions.
 max(X, Y) when X > Y -> X;
 max(_, Y) -> Y.
 
+
+min(X, Y) -> 
+    if 
+      X < Y -> X;
+      true  -> Y
+    end.
 
 
 %% 
@@ -42,6 +47,41 @@ even(L) -> filter( fun(X) -> X rem 2 == 0 end, L).
 last([])    -> nil;  % the null empty is nil 
 last([E])   -> E;
 last([_|T]) -> last(T).
+
+
+
+%% get the element of the list L at the index of I
+at(_, [])     ->  nil; 
+at(I, [H|T])  -> 
+    if 
+      I == 1 -> H;
+      I >  1 -> at(I-1, T);
+      true   -> nil    % index I should NOT be less than 1.
+    end.
+
+
+
+
+%% reverse a list 
+rev([])    -> [];
+rev([H|T]) -> rev(T) ++ [H].
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
