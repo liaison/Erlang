@@ -3,6 +3,8 @@
 % Export a list of functions
 -export([quicksort/1, sort/1, fib/1, sum/1, sublist/3, max/2, min/2, at/2, rev/1, len/1, filter/2, last/1, even/1]).
 
+-export([insert/2, lookup/2]).
+
 %% quick sort, use the list comprehension construct.
 quicksort([]) -> [];
 quicksort([Head | Tail]) -> 
@@ -113,6 +115,34 @@ fib(F1, F2, N) -> fib(F2, F1+F2, N-1).
     %  N < 0 -> nil;
     %  true  -> fib(N-1) + fib(N-2)
     %end.
+
+
+
+%% functions about binary tree. 
+
+%% Insert a new value into a tree. {} represents an empty node. 
+insert({}, NewValue)   -> {NewValue, {}, {}};
+insert(Tree, NewValue) -> 
+    {Value, Left, Right} = Tree, 
+    if
+        Value >= NewValue -> {Value, insert(Left, NewValue), Right};
+        true              -> {Value, Left, insert(Right, NewValue)}
+    end.
+
+
+lookup({}, _)   -> nil;
+lookup(Tree, V) -> 
+    {Value, Left, Right} = Tree, 
+    if
+        Value == V -> Value;
+        Value >= V -> lookup(Left, V);
+        true       -> lookup(Right, V)
+    end.
+
+
+
+
+
 
 
 
