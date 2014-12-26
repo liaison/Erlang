@@ -1,13 +1,29 @@
 -module(utils).
 
 % Export a list of functions
--export([quicksort/1, fib/1, sum/1, sublist/3, max/2, min/2, at/2, rev/1, len/1, filter/2, last/1, even/1]).
+-export([quicksort/1, sort/1, fib/1, sum/1, sublist/3, max/2, min/2, at/2, rev/1, len/1, filter/2, last/1, even/1]).
 
 %% quick sort, use the list comprehension construct.
 quicksort([]) -> [];
 quicksort([Head | Tail]) -> 
     quicksort([L || L <- Tail, L =< Head]) 
     ++ [Head | quicksort([R || R <- Tail, R > Head])]. 
+
+
+%% more efficient than the List Comprehension, since we partition the list in one pass.
+sort([])    -> [];
+sort([H|T]) -> 
+    {Small, Large} = partition(H, T),
+    sort(Small) ++ [H | sort(Large)].
+
+
+partition(Pivot, List) -> partition(Pivot, List, [], []).
+
+partition(_, [], Small, Large) -> {Small, Large};
+partition(Pivot, [H|T], Small, Large) when H >= Pivot 
+        -> partition(Pivot, T, Small, [H|Large]);
+partition(Pivot, [H|T], Small, Large) when H < Pivot 
+        -> partition(Pivot, T, [H|Small], Large).
 
 
 %% accumulate all elements in a list.
